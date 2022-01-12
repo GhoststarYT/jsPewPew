@@ -3,4 +3,23 @@
     <head>
         <title>Hello</title>
     </head>
+    
+    <canvas id="canvas" width="600px" height="600px"></canvas>
+    
+    <script>
+        const player = {xPos:0, yPos:0, width:20, height:20, xVol:0, yVol:0};
+        const keysPressed = {Left:false, Right:false, Space:false};
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#000000";
+
+        player.xPos = 0;
+        player.yPos = 0;
+
+        function drawScreen() {
+            ctx.fillRect(player.xPos, player.yPos, player.width, player.height);
+        }
+
+        var iDrawScreen = setInterval(drawScreen, 10);
+    </script>
 </body>
