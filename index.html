@@ -4,22 +4,113 @@
         <title>Hello</title>
     </head>
     
-    <canvas id="canvas" width="600px" height="600px"></canvas>
+    <canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas>
     
     <script>
-        const player = {xPos:0, yPos:0, width:20, height:20, xVol:0, yVol:0};
+        const d = new Date();
+        const player = {xPos:290, yPos:550, width:20, height:20};
+        const bullet = {xPos:-20, yPos:-20, width:10, height:20};
+        const enemyBullet = {xPos:-20, yPos:-20, width:10, height:20};
+        const enemy = {xPos:290, yPos:20, width:20, height:20};
         const keysPressed = {Left:false, Right:false, Space:false};
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#000000";
+        var fired = false;
+        var enemyFired = false;
+    
+        d1 = d.getUTCMilliseconds();
+        dTime = d.getUTCMilliseconds() - d1;
 
-        player.xPos = 0;
-        player.yPos = 0;
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode == 37) {
+                keysPressed.Left = true;
+            }
+            if (event.keyCode == 39) {
+                keysPressed.Right = true;
+            }
+            if (event.keyCode == 32) {
+                keysPressed.Space = true;
+            }
+        });
+        document.addEventListener('keyup', function(event) {
+            if (event.keyCode == 37) {
+                keysPressed.Left = false;
+            }
+            if (event.keyCode == 39) {
+                keysPressed.Right = false;
+            }
+            if (event.keyCode == 32) {
+                keysPressed.Space = false;
+            }
+        });
 
-        function drawScreen() {
-            ctx.fillRect(player.xPos, player.yPos, player.width, player.height);
+
+        function controls() {
+            if (keysPressed.Left == true) {
+                player.xPos = player.xPos - 2;
+            }
+            if (keysPressed.Right == true) {
+                player.xPos = player.xPos + 2;
+            }
+            if (keysPressed.Space == true) {
+                if (fired == false) {
+                    bullet.xPos = player.xPos + (player.width / 4);
+                    bullet.yPos = player.yPos - (player.height);
+                    console.log("fired");
+                    fired = true;
+                }
+            }
+            if (fired == true){
+                bullet.yPos = bullet.yPos - 4;
+                if (bullet.yPos < 0) {
+                    fired = false;
+                    bullet.xPos = -20;
+                    bullet.yPos = -20;
+                }
+            }
         }
 
-        var iDrawScreen = setInterval(drawScreen, 10);
+        function moveEnBullet() {    
+            if (enemyFired == true) {
+                enemyBullet.yPos = enemyBullet.yPos + 2;
+                if (enemyBullet.yPos > 600) {
+                    enemyFired = false;
+                }
+            }
+        }
+
+        function aiStuff() {
+            var decision = Math.floor(Math.random() * 3);
+            if (enemy.xPos < player.xPos + 10 && enemy.xPos > player.xPos - 10) {
+                if (enemyFired == false) {
+                    enemyBullet.xPos = enemy.xPos + (enemy.width / 4);
+                    enemyBullet.yPos = enemy.yPos + (enemy.height);
+                    console.log("Rnemy Fired");
+                    enemyFired = true;
+                }
+            }
+            if (enemy.xPos < player.xPos) {
+                enemy.xPos = enemy.xPos + 1;
+            } else if (enemy.xPos > player.xPos) {
+                enemy.xPos = enemy.xPos - 1;
+            }
+            moveEnBullet();
+        }
+
+        function drawScreen() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(player.xPos, player.yPos, player.width, player.height);
+            ctx.fillStyle = "#ff0000";
+            ctx.fillRect(bullet.xPos, bullet.yPos, bullet.width, bullet.height);
+            ctx.fillStyle = "#0000ff";
+            ctx.fillRect(enemy.xPos, enemy.yPos, enemy.width, enemy.height);
+            ctx.fillStyle = "#ff0000";
+            ctx.fillRect(enemyBullet.xPos, enemyBullet.yPos, enemyBullet.width, enemyBullet.height);
+        }
+
+        var iDrawScreen = setInterval(drawScreen, 10 * dTime);
+        var iControls = setInterval(controls, 10 * dTime);
+        var iAiStuff = setInterval(aiStuff, 10 * dTime);
     </script>
 </body>
