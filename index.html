@@ -5,14 +5,12 @@
     </head>
     
     <canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas>
-    
+    <audio muted="muted"></audio>
     <script>
         var winSound = new Audio('Win.wav');
-        winSound.muted = true;
         var loseSound = new Audio('Lose.wav');
-        loseSound.muted = true;
-        var fireSound = new Audio('Fire.wav');
-        loseSound.muted = true;
+        var playerFireS = new Audio('Fire.wav');
+        var enemyFireS = new Audio('Fire.wav');
         const d = new Date();
         const player = {xPos:290, yPos:550, width:20, height:20};
         const bullet = {xPos:-20, yPos:-20, width:10, height:20};
@@ -65,7 +63,7 @@
                     bullet.yPos = player.yPos - (player.height);
                     console.log("fired");
                     fired = true;
-                    fireSound.play();
+                    playerFireS.play();
                 }
             }
             if (fired == true){
@@ -115,7 +113,7 @@
                         enemyBullet.yPos = enemy.yPos + (enemy.height);
                         console.log("Enemy Fired");
                         enemyFired = true;
-                        fireSound.play();
+                        enemyFireS.play();
                     }
                 }
                 if (enemy.xPos > player.xPos) {
