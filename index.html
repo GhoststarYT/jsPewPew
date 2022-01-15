@@ -22,9 +22,22 @@
         var fired = false;
         var enemyFired = false;
         var winner = null;
+        var iAiStuff = null;
+        var iControls = null;
+        var iWinCheck = null;
+        var iDrawScreen = null;
+        var start = false;
     
         d1 = d.getUTCMilliseconds();
         dTime = d.getUTCMilliseconds() - d1;
+
+        function startGame() {
+            start = true;
+            iDrawScreen = setInterval(drawScreen, 10 * dTime);
+            iControls = setInterval(controls, 10 * dTime);
+            iAiStuff = setInterval(aiStuff, 10 * dTime);
+            iWinCheck = setInterval(winCheck, 10 * dTime)
+        }
 
         document.addEventListener('keydown', function(event) {
             if (event.keyCode == 37) {
@@ -35,6 +48,9 @@
             }
             if (event.keyCode == 32) {
                 keysPressed.Space = true;
+            }
+            if (start == false) {
+                startGame();
             }
         });
         document.addEventListener('keyup', function(event) {
@@ -155,6 +171,7 @@
                 iWinCheck = null;
                 ctx.fillStyle = "#000000";
                 ctx.font = "60px Arial";
+                drawScreen();
                 ctx.strokeText("Player Wins!", 10, 300);
                 winSound.play();
             } else if (enemyBullet.xPos < player.xPos + player.width && enemyBullet.xPos > player.xPos - player.width && enemyBullet.yPos > player.yPos - player.width && enemyFired == true) {
@@ -169,6 +186,7 @@
                 iWinCheck = null;
                 ctx.fillStyle = "#000000";
                 ctx.font = "60px Arial";
+                drawScreen();
                 ctx.strokeText("Enemy Wins!", 10, 300);
                 loseSound.play();
             }
@@ -186,9 +204,5 @@
             ctx.fillRect(enemyBullet.xPos, enemyBullet.yPos, enemyBullet.width, enemyBullet.height);
         }
 
-        var iDrawScreen = setInterval(drawScreen, 10 * dTime);
-        var iControls = setInterval(controls, 10 * dTime);
-        var iAiStuff = setInterval(aiStuff, 10 * dTime);
-        var iWinCheck = setInterval(winCheck, 10 * dTime)
     </script>
 </body>
