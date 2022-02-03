@@ -2,23 +2,44 @@
 <body>
     <head>
         <title>Hello</title>
+        <style type="text/css">
+            body {
+                font-family: sans-serif;
+            }
+            .info {
+                font: 8px serif;
+                font-style: italic;
+            }
+        </style>
     </head>
-    
-    <canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas>
+
+    <table>
+        <tr>
+            <td>
+                <h1>JS PEW PEW</h1>
+                <p>A simple Javascript shooter. Clone me on <a href="https://github.com/Rominer-11/jsPewPew">Github</a>!</p>
+                <p class="info">Version Beta 12, Feb 3 2022</p>
+            </td>
+            <td><canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas></td>
+        </tr>
+    </table>
     <audio muted="muted"></audio>
+
     <script>
         var winSound = new Audio('Win.wav');
         var loseSound = new Audio('Lose.wav');
         var playerFireS = new Audio('Fire.wav');
         var enemyFireS = new Audio('Fire.wav');
         const d = new Date();
+        const keysPressed = {Left:false, Right:false, Space:false};
         var player = {xPos:290, yPos:550, width:20, height:20};
         var bullet = {xPos:-20, yPos:-20, width:10, height:20};
         var enemyBullet = {xPos:-20, yPos:-20, width:10, height:20};
         var enemy = {xPos:290, yPos:20, width:20, height:20, state:"evading", stateTick:0};
-        const keysPressed = {Left:false, Right:false, Space:false};
         var canvas = document.getElementById("canvas");
         var ctx = canvas.getContext("2d");
+        var actx = new(window.AudioContext || window.webkitAudioContext)();
+        var square = null;
         var fired = false;
         var enemyFired = false;
         var winner = null;
@@ -66,6 +87,9 @@
             if (event.keyCode == 32) {
                 keysPressed.Space = true;
             }
+            if (event.keyCode == 32 && event.target == document.body) {
+                event.preventDefault();
+            }
         });
         document.addEventListener('keyup', function(event) {
             if (event.keyCode == 37) {
@@ -78,6 +102,12 @@
                 keysPressed.Space = false;
             }
         });
+
+        function soundBank(id) {
+            if (id == 0) {
+                square = actx.createOscillator();
+            }
+        }
 
 
         function controls() {
@@ -184,12 +214,13 @@
                 clearInterval(iWinCheck);
                 iWinCheck = null;
                 ctx.fillStyle = "#000000";
-                ctx.font = "60px Arial";
+                ctx.font = "60px sans-serif";
                 drawScreen();
                 ctx.strokeText("Player Wins!", 10, 300);
-                winSound.play();
+                soundBank(0);
+                //winSound.play();
                 start = false;
-                setTimeout(startGame, 500);
+                setTimeout(startGame, 1500);
             } else if (enemyBullet.xPos < player.xPos + player.width && enemyBullet.xPos > player.xPos - player.width && enemyBullet.yPos > player.yPos - player.width && enemyFired == true) {
                 winner = "enemy";
                 clearInterval(iDrawScreen);
@@ -201,12 +232,14 @@
                 clearInterval(iWinCheck);
                 iWinCheck = null;
                 ctx.fillStyle = "#000000";
-                ctx.font = "60px Arial";
+                ctx.font = "60px sans-serif";
                 drawScreen();
                 ctx.strokeText("Enemy Wins!", 10, 300);
+                //squareWave.start();
+                //setTimeout(() => {squareWave.stop();}, 100)
                 loseSound.play();
                 start = false;
-                setTimeout(startGame, 500);
+                setTimeout(startGame, 1500);
             }
         }
 
