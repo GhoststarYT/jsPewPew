@@ -18,7 +18,7 @@
             <td>
                 <h1>JS PEW PEW</h1>
                 <p>A simple Javascript shooter. Find me on <a href="https://github.com/Rominer-11/jsPewPew">Github</a>!<br>Controls: Space = Fire, Arrows = Move</p>
-                <p class="info">Version Beta 13, Feb 3 2022</p>
+                <p class="info">Version Beta 14, Feb 4 2022</p>
             </td>
             <td><canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas></td>
         </tr>
@@ -112,10 +112,14 @@
 
         function controls() {
             if (keysPressed.Left == true) {
-                player.xPos = player.xPos - 2;
+                if (player.xPos > 0) {
+                    player.xPos = player.xPos - 2;
+                }
             }
             if (keysPressed.Right == true) {
-                player.xPos = player.xPos + 2;
+                if (player.xPos + player.width < document.getElementById("canvas").width) {
+                    player.xPos = player.xPos + 2;
+                }
             }
             if (keysPressed.Space == true) {
                 if (fired == false) {
@@ -206,7 +210,7 @@
         }
 
         function winCheck() {
-            if (bullet.xPos < enemy.xPos + enemy.width && bullet.xPos > enemy.xPos - enemy.width && bullet.yPos < enemy.yPos + enemy.width && fired == true) {
+            if (bullet.xPos < enemy.xPos + enemy.width && bullet.xPos > enemy.xPos - bullet.width && bullet.yPos < enemy.yPos + enemy.height && bullet.yPos + bullet.height > enemy.yPos && fired == true) {
                 winner = "player";
                 clearInterval(iDrawScreen);
                 iDrawScreen = null;
@@ -224,7 +228,7 @@
                 winSound.play();
                 start = false;
                 setTimeout(startGame, 1500);
-            } else if (enemyBullet.xPos < player.xPos + player.width && enemyBullet.xPos > player.xPos - player.width && enemyBullet.yPos > player.yPos - player.width && enemyFired == true) {
+            } else if (enemyBullet.xPos < player.xPos + player.width && enemyBullet.xPos > player.xPos - bullet.width && enemyBullet.yPos > player.yPos - player.height && enemyBullet.yPos < player.yPos + player.height && enemyFired == true) {
                 winner = "enemy";
                 clearInterval(iDrawScreen);
                 iDrawScreen = null;
