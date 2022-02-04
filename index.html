@@ -1,7 +1,7 @@
 <DOCTYPE! html>
 <body>
     <head>
-        <title>Hello</title>
+        <title>Js Pew Pew</title>
         <style type="text/css">
             body {
                 font-family: sans-serif;
@@ -17,8 +17,8 @@
         <tr>
             <td>
                 <h1>JS PEW PEW</h1>
-                <p>A simple Javascript shooter. Clone me on <a href="https://github.com/Rominer-11/jsPewPew">Github</a>!</p>
-                <p class="info">Version Beta 12, Feb 3 2022</p>
+                <p>A simple Javascript shooter. Find me on <a href="https://github.com/Rominer-11/jsPewPew">Github</a>!<br>Controls: Space = Fire, Arrows = Move</p>
+                <p class="info">Version Beta 13, Feb 3 2022</p>
             </td>
             <td><canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas></td>
         </tr>
@@ -167,6 +167,9 @@
                 enemy.stateTick = enemy.stateTick + 1;
             }
             if (enemy.state == "attacking") {
+                if (enemy.xPos < bullet.xPos + 100 && enemy.xPos > bullet.xPos - 100 && bullet.yPos < 100 && bullet.yPos > 0) {
+                    enemy.state = null;
+                }
                 if (enemy.xPos < player.xPos + 10 && enemy.xPos > player.xPos - 10) {
                     if (enemyFired == false) {
                         enemyBullet.xPos = enemy.xPos + (enemy.width / 4);
@@ -181,7 +184,7 @@
                 } else if (enemy.xPos < player.xPos) {
                     enemy.xPos = enemy.xPos + 2;
                 }
-                if (enemy.stateTick > 500) {
+                if (enemy.stateTick > 150) {
                     enemy.state = null;
                 }
                 enemy.stateTick = enemy.stateTick + 1;
@@ -218,7 +221,7 @@
                 drawScreen();
                 ctx.strokeText("Player Wins!", 10, 300);
                 soundBank(0);
-                //winSound.play();
+                winSound.play();
                 start = false;
                 setTimeout(startGame, 1500);
             } else if (enemyBullet.xPos < player.xPos + player.width && enemyBullet.xPos > player.xPos - player.width && enemyBullet.yPos > player.yPos - player.width && enemyFired == true) {
