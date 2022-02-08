@@ -1,3 +1,3 @@
-# jsPewPew
-A simple, one file, offline Javascript Shooter!
-If you find any bugs or improvements, please let me know!
+# GsPewPew
+This is a mod for JsPewPew called GhostyPewPew, or GsPewPew. 
+Makes the player Invincible
