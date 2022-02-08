@@ -16,9 +16,9 @@
     <table>
         <tr>
             <td>
-                <h1 id="mainHeader">JS PEW PEW</h1>
-                <p>A simple Javascript shooter. Find me on <a href="https://github.com/Rominer-11/jsPewPew">Github</a>!<br>Controls: Space = Fire, Arrows = Move. Press P to play/pause.</p>
-                <p class="info">Version 1.0, Feb 5 2022</p>
+                <h1 id="mainHeader">JS PEW PEW - GS PEW PEW</h1>
+                <p>A simple Javascript shooter. Find me on <a href="https://github.com/Rominer-11/jsPewPew">Github</a>!<br>Controls: Space = Fire, Arrows = Move. Press P to play/pause. This is a mod! find the fork here:  <a href="https://github.com/GhoststarYT/jsPewPew/blob/main/index.html">Github</a></p>
+                <p class="info">Version 1.0, Feb 5 2022 - GhostyPewPew Mod</p>
             </td>
             <td><canvas id="canvas" width="600px" height="600px" style="border: 2px solid black; margin: 5%;"></canvas></td>
         </tr>
@@ -301,7 +301,7 @@
                 playOscillator(aContext.currentTime + 0.5, aContext.currentTime + 1, 783.99, 2);
                 playOscillator(aContext.currentTime + 0.5, aContext.currentTime + 1, 1046.50, 3);
 
-            } else if (enemyBullet.xPos < player.xPos + player.width && enemyBullet.xPos > player.xPos - bullet.width && enemyBullet.yPos > player.yPos - player.height && enemyBullet.yPos < player.yPos + player.height && enemyFired == true) {
+            } else if (1==2) {
                 //If enemy has won
                 winner = "enemy";
                 clearInterval(iDrawScreen);
